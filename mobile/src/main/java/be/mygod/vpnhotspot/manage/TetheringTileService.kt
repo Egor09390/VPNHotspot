@@ -95,8 +95,9 @@ sealed class TetheringTileService : NetlinkNeighbourMonitoringTileService() {
                 }
                 else -> {
                     val binder = binder ?: return
-                    state = Tile.STATE_ACTIVE
-                    icon = if (interested.all(binder::isActive)) tileOn else tileOff
+                    val vpnSharing = interested.all(binder::isActive)
+                    state = if (vpnSharing) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
+                    icon = if (vpnSharing) tileOn else tileOff
                     subtitleDevices(interested::contains)
                 }
             }
